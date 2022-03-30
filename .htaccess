@@ -1,0 +1,27 @@
+<IfModule mod_rewrite.c>
+
+<IfModule mod_negotiation.c>
+Options -MultiViews
+</IfModule>
+
+RewriteEngine On
+RewriteBase /
+
+RewriteCond %{THE_REQUEST} /public/([^\s?]*) [NC]
+RewriteRule ^ %1 [L,NE,R=302]
+
+RewriteRule ^((?!public/).*)$ public/$1 [L,NC]
+
+# Handle Front Controller…
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ /public/index.php [L]
+
+Header set Access-Control-Allow-Origin "*"
+Header set Access-Control-Allow-Methods "GET,POST,PUT,DELETE,OPTIONS"
+Header set Access-Control-Allow-Credentials "true"
+Header set Access-Control-Allow-Headers "Access-Control-Allow-Origin, Content-Type, Accept, Access-Control-Request-Method, Authorization"
+#Header set Content-Type "multipart/form-data"
+
+
+</IfModule>
